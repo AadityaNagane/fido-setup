@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FIDO Setup Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow reading column; OS tabs on top, numbered steps below, callouts for warnings/notes */
+:root {
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --fg: #171a26;
+  --muted: #555b70;
+  --line: #dde1ec;
+  --accent: #2346c8;
+  --accent-soft: #e7ecfc;
+  --accent-fg: #ffffff;
+  --warn-bg: #fff6e0;
+  --warn-line: #e7b33a;
+  --warn-fg: #6b4a00;
+  --note-bg: #eef1f8;
+  --term-bg: #12151f;
+  --term-fg: #d6dcf0;
+  --term-dim: #7f88a6;
+  --term-hl: #8fd0ff;
+  --font-display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1118; --surface: #171a24; --fg: #e8eaf2; --muted: #a2a8bd; --line: #2a2f40;
+    --accent: #7d9bff; --accent-soft: #1d2540; --accent-fg: #0f1118;
+    --warn-bg: #2a2210; --warn-line: #b88a22; --warn-fg: #f3d58a; --note-bg: #1c2030;
+    --term-bg: #0a0c12; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1118; --surface: #171a24; --fg: #e8eaf2; --muted: #a2a8bd; --line: #2a2f40;
+  --accent: #7d9bff; --accent-soft: #1d2540; --accent-fg: #0f1118;
+  --warn-bg: #2a2210; --warn-line: #b88a22; --warn-fg: #f3d58a; --note-bg: #1c2030;
+  --term-bg: #0a0c12; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.6 var(--font-body);
+  padding-inline: 16px;
+  padding-block: 40px 64px;
+}
+.wrap { max-width: 720px; margin: 0 auto; display: grid; gap: 28px; }
+
+header { display: grid; gap: 8px; }
+.eyebrow { font: 500 12px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+h1 { font: 700 clamp(30px, 6vw, 42px)/1.1 var(--font-display); margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+.lede { margin: 0; color: var(--muted); max-width: 60ch; }
+
+/* OS tabs */
+.tabs { display: flex; gap: 4px; padding: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.tab {
+  flex: 1; min-width: 0; border: 0; background: transparent; color: var(--muted);
+  font: 600 15px/1 var(--font-body); padding: 12px 8px; border-radius: 7px; cursor: pointer;
+}
+.tab:hover { color: var(--fg); }
+.tab[aria-selected="true"] { background: var(--accent); color: var(--accent-fg); }
+.tab:focus-visible, .dl:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.panel { display: grid; gap: 28px; }
+.os-note { margin: 0; color: var(--muted); font-size: 15px; }
+
+/* Steps */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 28px; counter-reset: step; }
+.step { display: grid; grid-template-columns: 40px 1fr; gap: 16px; }
+.step::before {
+  counter-increment: step; content: counter(step);
+  width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--accent-soft); color: var(--accent);
+  font: 700 17px/1 var(--font-display);
+}
+.step-body { min-width: 0; display: grid; gap: 12px; }
+h2 { font: 600 20px/1.3 var(--font-display); margin: 8px 0 0; text-wrap: balance; }
+h3 { font: 600 17px/1.3 var(--font-display); margin: 0; }
+p { margin: 0; }
+ol.sub { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+ol.sub li::marker { color: var(--muted); font-variant-numeric: tabular-nums; }
+.ui { font-weight: 600; }
+kbd {
+  font: 500 13px/1 var(--font-mono); padding: 3px 6px; border-radius: 5px;
+  border: 1px solid var(--line); border-bottom-width: 2px; background: var(--surface);
+}
+code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px 5px; border-radius: 4px; }
+
+/* Download choices */
+.choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.choice {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  padding: 16px; display: grid; gap: 10px; align-content: start; min-width: 0;
+}
+.choice .tag { font: 500 12px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.choice h3 { font-size: 17px; }
+.dl {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--accent); color: var(--accent-fg); text-decoration: none;
+  font: 600 15px/1 var(--font-body); padding: 12px 14px; border-radius: 8px;
+}
+.dl:hover { filter: brightness(1.08); }
+.dl svg { width: 16px; height: 16px; flex: none; }
+.file { font: 400 13px var(--font-mono); color: var(--muted); overflow-wrap: anywhere; }
+
+/* Callouts */
+.callout { border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; font-size: 15px; }
+.callout strong { font-weight: 600; }
+.warn { background: var(--warn-bg); border: 1px solid var(--warn-line); color: var(--warn-fg); }
+.warn .callout-title { font: 700 13px/1.2 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
+.note { background: var(--note-bg); color: var(--fg); }
+.note .callout-title { font-weight: 600; }
+
+/* Terminal mock */
+.term { background: var(--term-bg); color: var(--term-fg); border-radius: 10px; overflow: hidden; }
+.term-bar { display: flex; gap: 6px; padding: 10px 12px; border-bottom: 1px solid #ffffff14; }
+.term-bar span { width: 10px; height: 10px; border-radius: 50%; background: #ffffff26; }
+.term pre { margin: 0; padding: 14px 16px; font: 400 14px/1.6 var(--font-mono); overflow-x: auto; }
+.term .dim { color: var(--term-dim); }
+.term .hl { color: var(--term-hl); }
+
+/* After workshop */
+.after { border-top: 1px solid var(--line); padding-top: 28px; display: grid; gap: 12px; }
+
+.hint { font-size: 14px; color: var(--warn-fg); background: var(--warn-bg); border-radius: 6px; padding: 6px 10px; }
+
+@media (max-width: 480px) {
+  .step { grid-template-columns: 1fr; gap: 8px; }
+  .tab { font-size: 14px; padding: 11px 4px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .tab { transition: background-color .15s, color .15s; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Before the workshop</div>
+    <h1>FIDO Setup Guide</h1>
+    <p class="lede">Pick your laptop's operating system below and follow the steps exactly. If you get stuck, bring your laptop to the workshop and we will help you there.</p>
+  </header>
+
+  <div class="tabs" role="tablist" aria-label="Operating system">
+    <button class="tab" role="tab" id="tab-windows" aria-controls="panel-windows" aria-selected="true">Windows</button>
+    <button class="tab" role="tab" id="tab-mac" aria-controls="panel-mac" aria-selected="false" tabindex="-1">macOS</button>
+    <button class="tab" role="tab" id="tab-linux" aria-controls="panel-linux" aria-selected="false" tabindex="-1">Linux</button>
+  </div>
+
+  <!-- ───────────── WINDOWS ───────────── -->
+  <section class="panel" role="tabpanel" id="panel-windows" aria-labelledby="tab-windows">
+    <ol class="steps">
+      <li class="step">
+        <div class="step-body">
+          <h2>Download the setup file</h2>
+          <p>Choose which version of FIDO you want and download its <code>.bat</code> file.</p>
+          <div class="choices">
+            <div class="choice">
+              <span class="tag">Option A</span>
+              <h3>Standard FIDO</h3>
+              <a class="dl" href="https://drive.google.com/file/d/1gvz_tiYcQ-v5gJb6mIqMSqNe9uCMUUub/view?usp=sharing" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 13.5h11"/></svg>Download for Windows</a>
+              <span class="file">setup_fido.bat</span>
+            </div>
+            <div class="choice">
+              <span class="tag">Option B</span>
+              <h3>Bharat Gen variant</h3>
+              <p class="hint">Uses a bigger model, so it takes longer to download and install.</p>
+              <a class="dl" href="https://drive.google.com/file/d/1p845beIfdz3l-2ymztPKuFVfpr7KzEcv/view?usp=sharing" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 13.5h11"/></svg>Download for Windows</a>
+              <span class="file">.bat file</span>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="step">
+        <div class="step-body">
+          <h2>Turn off Smart App Control <span style="font-weight:500;color:var(--muted)">(Windows 11 only)</span></h2>
+          <div class="callout warn" role="note">
+            <span class="callout-title">⚠ Warning</span>
+            <p>Smart App Control is a Windows security feature. If you do not feel comfortable turning it off, you can wait for the workshop and we will help you there.</p>
+            <p><strong>If you turn it off, please turn it back ON after the workshop</strong> (steps at the bottom of this page).</p>
+          </div>
+          <p>Smart App Control can block the files FIDO needs to run properly.</p>
+          <ol class="sub">
+            <li>Click the Start Menu at the bottom of your screen, type <span class="ui">Windows Security</span>, and open it.</li>
+            <li>Click <span class="ui">App &amp; browser control</span> on the left side.</li>
+            <li>Click <span class="ui">Smart App Control settings</span>.</li>
+            <li>Select <span class="ui">Off</span>.</li>
+          </ol>
+          <div class="callout note">
+            <p>If you do not see <span class="ui">Smart App Control settings</span>, you are either on Windows 10 or it is already off. You can skip this step.</p>
+          </div>
+        </div>
+      </li>
+
+      <li class="step">
+        <div class="step-body">
+          <h2>Run the setup</h2>
+          <ol class="sub">
+            <li>Go to your <span class="ui">Downloads</span> folder and double-click the <code>.bat</code> file you just downloaded. A black command window will open.</li>
+            <li>Wait until the window says the setup is finished. <strong>Do not close the window early</strong>, even if it looks stuck for a minute.</li>
+            <li>Once the setup is finished, the next steps to run FIDO will appear right below that in the same black window. Follow those exact steps.</li>
+          </ol>
+          <div class="callout note">
+            <span class="callout-title">Closed the black window by mistake?</span>
+            <p>Just double-click the <code>.bat</code> file again and wait. If all the files are already there, it will not download them again. It will just tell you FIDO is installed and show you the next steps.</p>
+          </div>
+        </div>
+      </li>
+    </ol>
+
+    <div class="after">
+      <div class="eyebrow">After the workshop</div>
+      <h2 style="margin:0">Turn Smart App Control back on</h2>
+      <ol class="sub">
+        <li>Open <span class="ui">Windows Security</span> from your Start Menu.</li>
+        <li>Click <span class="ui">App &amp; browser control</span>.</li>
+        <li>Click <span class="ui">Smart App Control settings</span>.</li>
+        <li>Select <span class="ui">On</span>.</li>
+      </ol>
+      <div class="callout note">
+        <p>If <span class="ui">On</span> is greyed out, run Windows Update first, then try again.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────── MAC ───────────── -->
+  <section class="panel" role="tabpanel" id="panel-mac" aria-labelledby="tab-mac" hidden>
+    <ol class="steps">
+      <li class="step">
+        <div class="step-body">
+          <h2>Download the setup file</h2>
+          <p>Choose which version of FIDO you want and download its <code>.sh</code> file.</p>
+          <div class="choices">
+            <div class="choice">
+              <span class="tag">Option A</span>
+              <h3>Standard FIDO</h3>
+              <a class="dl" href="https://drive.google.com/file/d/1dmQMWmwX9pMAZ_5LtK5RuzxHDQ63wpho/view?usp=sharing" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 13.5h11"/></svg>Download for Mac</a>
+              <span class="file">.sh file</span>
+            </div>
+            <div class="choice">
+              <span class="tag">Option B</span>
+              <h3>Bharat Gen variant</h3>
+              <p class="hint">Uses a bigger model, so it takes longer to download and install.</p>
+              <a class="dl" href="https://drive.google.com/file/d/18SFjTW48VvzVeGH5Kpq9ktEgaVF14hQZ/view?usp=sharing" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 13.5h11"/></svg>Download for Mac</a>
+              <span class="file">.sh file</span>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="step">
+        <div class="step-body">
+          <h2>Open your Terminal</h2>
+          <p>Press <kbd>Command</kbd> and <kbd>Space</kbd> at the same time to open Spotlight Search. Type <span class="ui">Terminal</span> and press <kbd>Enter</kbd>.</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <div class="step-body">
+          <h2>Run the setup file</h2>
+          <p>You will run the <code>.sh</code> file you downloaded using drag and drop.</p>
+          <ol class="sub">
+            <li>In your Terminal window, type <code>bash</code> followed by a single space. <strong>Do not press Enter yet.</strong></li>
+            <li>Open your <span class="ui">Downloads</span> folder and find the <code>.sh</code> file you downloaded in Step 1.</li>
+            <li>Click and drag that file into the Terminal window and let go. This pastes the exact file path for you.</li>
+            <li>Now press <kbd>Enter</kbd>.</li>
+            <li>Follow any on-screen instructions in the Terminal window to complete the installation.</li>
+          </ol>
+          <div class="term" aria-label="Example of what the Terminal should look like before pressing Enter">
+            <div class="term-bar"><span></span><span></span><span></span></div>
+            <pre><span class="dim">$</span> bash <span class="hl">/Users/yourname/Downloads/setup_fido.sh</span>
+<span class="dim"># ↑ typed "bash " yourself, the path came from dragging the file in</span></pre>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ───────────── LINUX ───────────── -->
+  <section class="panel" role="tabpanel" id="panel-linux" aria-labelledby="tab-linux" hidden>
+    <ol class="steps">
+      <li class="step">
+        <div class="step-body">
+          <h2>Download the setup file</h2>
+          <p>Choose which version of FIDO you want and download its <code>.sh</code> file.</p>
+          <div class="choices">
+            <div class="choice">
+              <span class="tag">Option A</span>
+              <h3>Standard FIDO</h3>
+              <a class="dl" href="https://drive.google.com/file/d/1PI05nCIKCVvE1PIyrC32TqvgsYkNgAFH/view?usp=sharing" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 13.5h11"/></svg>Download for Linux</a>
+              <span class="file">.sh file</span>
+            </div>
+            <div class="choice">
+              <span class="tag">Option B</span>
+              <h3>Bharat Gen variant</h3>
+              <p class="hint">Uses a bigger model, so it takes longer to download and install.</p>
+              <a class="dl" href="https://drive.google.com/file/d/1uAgKO7g3xIeiI9ca7yOD99Eo1rAN5CrD/view?usp=sharing" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 13.5h11"/></svg>Download for Linux</a>
+              <span class="file">.sh file</span>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="step">
+        <div class="step-body">
+          <h2>Open your Terminal</h2>
+          <p>Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd> at the same time to open a Terminal window.</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <div class="step-body">
+          <h2>Run the setup file</h2>
+          <p>You will run the <code>.sh</code> file you downloaded using drag and drop.</p>
+          <ol class="sub">
+            <li>In your Terminal window, type <code>bash</code> followed by a single space. <strong>Do not press Enter yet.</strong></li>
+            <li>Open your <span class="ui">Downloads</span> folder and find the <code>.sh</code> file you downloaded in Step 1.</li>
+            <li>Click and drag that file into the Terminal window and let go. This pastes the exact file path for you.</li>
+            <li>Now press <kbd>Enter</kbd>.</li>
+            <li>Follow any on-screen instructions in the Terminal window to complete the installation.</li>
+          </ol>
+          <div class="term" aria-label="Example of what the Terminal should look like before pressing Enter">
+            <div class="term-bar"><span></span><span></span><span></span></div>
+            <pre><span class="dim">$</span> bash <span class="hl">'/home/yourname/Downloads/setup_fido.sh'</span>
+<span class="dim"># ↑ typed "bash " yourself, the path came from dragging the file in</span></pre>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  function select(name, focus) {
+    tabs.forEach(function (t) {
+      var on = t.id === 'tab-' + name;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      if (on && focus) t.focus();
+    });
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { select(t.id.slice(4)); });
+    t.addEventListener('keydown', function (e) {
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (d) { e.preventDefault(); select(tabs[(i + d + tabs.length) % tabs.length].id.slice(4), true); }
+    });
+  });
+  // Open the tab for the visitor's OS (or #windows / #mac / #linux in the link)
+  var hash = (location.hash || '').slice(1).toLowerCase();
+  var ua = navigator.userAgent || '';
+  var os = ['windows', 'mac', 'linux'].indexOf(hash) > -1 ? hash
+         : /Mac/i.test(ua) && !/iPhone|iPad/i.test(ua) ? 'mac'
+         : /Linux/i.test(ua) && !/Android/i.test(ua) ? 'linux'
+         : 'windows';
+  select(os);
+})();
+</script>
+</body>
+</html>

@@ -58,13 +58,27 @@ body {
 }
 .wrap { max-width: 720px; margin: 0 auto; display: grid; gap: 28px; }
 
-header { display: grid; gap: 8px; }
 .eyebrow { font: 500 12px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
-h1 { font: 700 clamp(30px, 6vw, 42px)/1.1 var(--font-display); margin: 0; text-wrap: balance; letter-spacing: -.01em; }
 .lede { margin: 0; color: var(--muted); max-width: 60ch; }
-.eyebrow.event { font-size: clamp(16px, 3.5vw, 20px); font-weight: 600; letter-spacing: .06em; line-height: 1.3; }
-.prep { justify-self: start; margin: 4px 0 0; background: var(--accent-soft); color: var(--accent); font-weight: 600; padding: 10px 14px; border-radius: 8px; }
-.logo { width: min(300px, 100%); height: auto; filter: var(--logo-filter); margin-bottom: 12px; }
+
+/* Masthead: logo, divider, workshop name, title, all centred on one axis */
+.masthead {
+  display: grid; justify-items: center; text-align: center; gap: 14px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  padding: clamp(24px, 5vw, 40px) 20px;
+}
+.logo { display: block; width: min(340px, 85%); height: auto; filter: var(--logo-filter); }
+.masthead .rule { width: 48px; height: 3px; border-radius: 2px; background: var(--accent); margin-block: 4px; }
+.event { margin: 0; font: 600 clamp(15px, 3.4vw, 19px)/1.3 var(--font-display); letter-spacing: .04em; color: var(--accent); }
+h1 { font: 700 clamp(32px, 7vw, 48px)/1.1 var(--font-display); margin: 0; text-wrap: balance; letter-spacing: -.015em; }
+
+.intro { display: grid; gap: 12px; }
+.prep {
+  margin: 0; display: flex; align-items: center; gap: 10px;
+  background: var(--accent-soft); color: var(--accent); font-weight: 600;
+  padding: 12px 16px; border-radius: 10px;
+}
+.prep svg { width: 18px; height: 18px; flex: none; }
 
 /* Checklist of what to install */
 .toc { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
@@ -170,17 +184,21 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
 <body>
 <div class="wrap">
 
-  <header>
+  <header class="masthead">
     <img class="logo" src="semix_logo.png" width="699" height="236" alt="IIT Bombay | SEMIX, IITB Centre for Semiconductor Technologies">
-    <div class="eyebrow event">SEMIX AIPC Workshop 2026</div>
+    <div class="rule" aria-hidden="true"></div>
+    <p class="event">SEMIX AIPC Workshop 2026</p>
     <h1>AI Workshop Day 4</h1>
-    <p class="prep">Complete the following setup before the workshop.</p>
+  </header>
+
+  <div class="intro">
+    <p class="prep"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5V8l2.5 1.5"/></svg>Complete the following setup before the workshop.</p>
     <p class="lede">You need to install two things on your laptop:</p>
     <ol class="toc">
       <li><a href="#fido"><span class="num">1</span><span><strong>FIDO</strong> <span class="desc">· Windows, macOS or Linux</span></span></a></li>
       <li><a href="#quartus"><span class="num">2</span><span><strong>Intel Quartus + ModelSim</strong> <span class="desc">· for Verilog RTL design</span></span></a></li>
     </ol>
-  </header>
+  </div>
 
   <section class="part" id="fido" aria-labelledby="fido-title">
   <div class="part-head">

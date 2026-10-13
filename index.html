@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>FIDO Setup Guide · SEMIX AIPC Workshop 2026</title>
+<title>AI Workshop Day 4 · SEMIX AIPC Workshop 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -26,6 +26,7 @@
   --term-fg: #d6dcf0;
   --term-dim: #7f88a6;
   --term-hl: #8fd0ff;
+  --logo-filter: brightness(0);
   --font-display: "Sora", "Segoe UI", system-ui, sans-serif;
   --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
@@ -35,14 +36,14 @@
     --bg: #0f1118; --surface: #171a24; --fg: #e8eaf2; --muted: #a2a8bd; --line: #2a2f40;
     --accent: #7d9bff; --accent-soft: #1d2540; --accent-fg: #0f1118;
     --warn-bg: #2a2210; --warn-line: #b88a22; --warn-fg: #f3d58a; --note-bg: #1c2030;
-    --term-bg: #0a0c12; color-scheme: dark;
+    --term-bg: #0a0c12; --logo-filter: none; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #0f1118; --surface: #171a24; --fg: #e8eaf2; --muted: #a2a8bd; --line: #2a2f40;
   --accent: #7d9bff; --accent-soft: #1d2540; --accent-fg: #0f1118;
   --warn-bg: #2a2210; --warn-line: #b88a22; --warn-fg: #f3d58a; --note-bg: #1c2030;
-  --term-bg: #0a0c12; color-scheme: dark;
+  --term-bg: #0a0c12; --logo-filter: none; color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -63,6 +64,25 @@ h1 { font: 700 clamp(30px, 6vw, 42px)/1.1 var(--font-display); margin: 0; text-w
 .lede { margin: 0; color: var(--muted); max-width: 60ch; }
 .eyebrow.event { font-size: clamp(16px, 3.5vw, 20px); font-weight: 600; letter-spacing: .06em; line-height: 1.3; }
 .prep { justify-self: start; margin: 4px 0 0; background: var(--accent-soft); color: var(--accent); font-weight: 600; padding: 10px 14px; border-radius: 8px; }
+.logo { width: min(300px, 100%); height: auto; filter: var(--logo-filter); margin-bottom: 12px; }
+
+/* Checklist of what to install */
+.toc { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.toc a {
+  display: flex; align-items: baseline; gap: 12px; padding: 12px 14px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  color: var(--fg); text-decoration: none;
+}
+.toc a:hover { border-color: var(--accent); }
+.toc a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.toc .num { font: 700 15px/1 var(--font-display); color: var(--accent); font-variant-numeric: tabular-nums; }
+.toc strong { font-weight: 600; }
+.toc span.desc { color: var(--muted); font-size: 15px; }
+
+/* Parts */
+.part { display: grid; gap: 20px; border-top: 1px solid var(--line); padding-top: 32px; scroll-margin-top: 16px; }
+.part-head { display: grid; gap: 6px; }
+h2 { font: 700 clamp(24px, 4.5vw, 28px)/1.2 var(--font-display); margin: 0; text-wrap: balance; letter-spacing: -.01em; }
 
 /* OS tabs */
 .tabs { display: flex; gap: 4px; padding: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
@@ -88,8 +108,8 @@ h1 { font: 700 clamp(30px, 6vw, 42px)/1.1 var(--font-display); margin: 0; text-w
   font: 700 17px/1 var(--font-display);
 }
 .step-body { min-width: 0; display: grid; gap: 12px; }
-h2 { font: 600 20px/1.3 var(--font-display); margin: 8px 0 0; text-wrap: balance; }
-h3 { font: 600 17px/1.3 var(--font-display); margin: 0; }
+h3 { font: 600 20px/1.3 var(--font-display); margin: 8px 0 0; text-wrap: balance; }
+h4 { font: 600 17px/1.3 var(--font-display); margin: 0; }
 p { margin: 0; }
 ol.sub { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
 ol.sub li::marker { color: var(--muted); font-variant-numeric: tabular-nums; }
@@ -107,7 +127,7 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
   padding: 16px; display: grid; gap: 10px; align-content: start; min-width: 0;
 }
 .choice .tag { font: 500 12px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
-.choice h3 { font-size: 17px; }
+.choice h4 { font-size: 17px; }
 .dl {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   background: var(--accent); color: var(--accent-fg); text-decoration: none;
@@ -151,11 +171,23 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
 <div class="wrap">
 
   <header>
+    <img class="logo" src="semix_logo.png" width="699" height="236" alt="IIT Bombay | SEMIX, IITB Centre for Semiconductor Technologies">
     <div class="eyebrow event">SEMIX AIPC Workshop 2026</div>
-    <h1>FIDO Setup Guide</h1>
+    <h1>AI Workshop Day 4</h1>
     <p class="prep">Complete the following setup before the workshop.</p>
-    <p class="lede">Pick your laptop's operating system below and follow the steps exactly.</p>
+    <p class="lede">You need to install two things on your laptop:</p>
+    <ol class="toc">
+      <li><a href="#fido"><span class="num">1</span><span><strong>FIDO</strong> <span class="desc">· Windows, macOS or Linux</span></span></a></li>
+      <li><a href="#quartus"><span class="num">2</span><span><strong>Intel Quartus + ModelSim</strong> <span class="desc">· for Verilog RTL design</span></span></a></li>
+    </ol>
   </header>
+
+  <section class="part" id="fido" aria-labelledby="fido-title">
+  <div class="part-head">
+    <div class="eyebrow">Part 1</div>
+    <h2 id="fido-title">FIDO</h2>
+    <p class="lede">Pick your laptop's operating system below and follow the steps exactly.</p>
+  </div>
 
   <div class="tabs" role="tablist" aria-label="Operating system">
     <button class="tab" role="tab" id="tab-windows" aria-controls="panel-windows" aria-selected="true">Windows</button>
@@ -168,18 +200,18 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
     <ol class="steps">
       <li class="step">
         <div class="step-body">
-          <h2>Download the setup file</h2>
+          <h3>Download the setup file</h3>
           <p>Choose which version of FIDO you want and download its <code>.bat</code> file.</p>
           <div class="choices">
             <div class="choice">
               <span class="tag">Option A</span>
-              <h3>Standard FIDO</h3>
+              <h4>Standard FIDO</h4>
               <a class="dl" href="https://drive.google.com/file/d/1gvz_tiYcQ-v5gJb6mIqMSqNe9uCMUUub/view?usp=sharing" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 13.5h11"/></svg>Download for Windows</a>
               <span class="file">setup_fido.bat</span>
             </div>
             <div class="choice">
               <span class="tag">Option B</span>
-              <h3>Bharat Gen variant</h3>
+              <h4>Bharat Gen variant</h4>
               <p class="hint">Uses a bigger model, so it takes longer to download and install.</p>
               <a class="dl" href="https://drive.google.com/file/d/1p845beIfdz3l-2ymztPKuFVfpr7KzEcv/view?usp=sharing" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 13.5h11"/></svg>Download for Windows</a>
               <span class="file">.bat file</span>
@@ -190,11 +222,11 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
 
       <li class="step">
         <div class="step-body">
-          <h2>Turn off Smart App Control <span style="font-weight:500;color:var(--muted)">(Windows 11 only)</span></h2>
+          <h3>Turn off Smart App Control <span style="font-weight:500;color:var(--muted)">(Windows 11 only)</span></h3>
           <div class="callout warn" role="note">
             <span class="callout-title">⚠ Warning</span>
             <p>Smart App Control is a Windows security feature. If you do not feel comfortable turning it off, you can wait for the workshop and we will help you there.</p>
-            <p><strong>If you turn it off, please turn it back ON after the workshop</strong> (steps at the bottom of this page).</p>
+            <p><strong>If you turn it off, please turn it back ON after the workshop</strong> (steps at the end of this Windows section).</p>
           </div>
           <p>Smart App Control can block the files FIDO needs to run properly.</p>
           <ol class="sub">
@@ -211,7 +243,7 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
 
       <li class="step">
         <div class="step-body">
-          <h2>Run the setup</h2>
+          <h3>Run the setup</h3>
           <ol class="sub">
             <li>Go to your <span class="ui">Downloads</span> folder and double-click the <code>.bat</code> file you just downloaded. A black command window will open.</li>
             <li>Wait until the window says the setup is finished. <strong>Do not close the window early</strong>, even if it looks stuck for a minute.</li>
@@ -227,7 +259,7 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
 
     <div class="after">
       <div class="eyebrow">After the workshop</div>
-      <h2 style="margin:0">Turn Smart App Control back on</h2>
+      <h3 style="margin:0">Turn Smart App Control back on</h3>
       <ol class="sub">
         <li>Open <span class="ui">Windows Security</span> from your Start Menu.</li>
         <li>Click <span class="ui">App &amp; browser control</span>.</li>
@@ -245,18 +277,18 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
     <ol class="steps">
       <li class="step">
         <div class="step-body">
-          <h2>Download the setup file</h2>
+          <h3>Download the setup file</h3>
           <p>Choose which version of FIDO you want and download its <code>.sh</code> file.</p>
           <div class="choices">
             <div class="choice">
               <span class="tag">Option A</span>
-              <h3>Standard FIDO</h3>
+              <h4>Standard FIDO</h4>
               <a class="dl" href="https://drive.google.com/file/d/1dmQMWmwX9pMAZ_5LtK5RuzxHDQ63wpho/view?usp=sharing" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 13.5h11"/></svg>Download for Mac</a>
               <span class="file">.sh file</span>
             </div>
             <div class="choice">
               <span class="tag">Option B</span>
-              <h3>Bharat Gen variant</h3>
+              <h4>Bharat Gen variant</h4>
               <p class="hint">Uses a bigger model, so it takes longer to download and install.</p>
               <a class="dl" href="https://drive.google.com/file/d/18SFjTW48VvzVeGH5Kpq9ktEgaVF14hQZ/view?usp=sharing" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 13.5h11"/></svg>Download for Mac</a>
               <span class="file">.sh file</span>
@@ -267,14 +299,14 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
 
       <li class="step">
         <div class="step-body">
-          <h2>Open your Terminal</h2>
+          <h3>Open your Terminal</h3>
           <p>Press <kbd>Command</kbd> and <kbd>Space</kbd> at the same time to open Spotlight Search. Type <span class="ui">Terminal</span> and press <kbd>Enter</kbd>.</p>
         </div>
       </li>
 
       <li class="step">
         <div class="step-body">
-          <h2>Run the setup file</h2>
+          <h3>Run the setup file</h3>
           <p>You will run the <code>.sh</code> file you downloaded using drag and drop.</p>
           <ol class="sub">
             <li>In your Terminal window, type <code>bash</code> followed by a single space. <strong>Do not press Enter yet.</strong></li>
@@ -298,18 +330,18 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
     <ol class="steps">
       <li class="step">
         <div class="step-body">
-          <h2>Download the setup file</h2>
+          <h3>Download the setup file</h3>
           <p>Choose which version of FIDO you want and download its <code>.sh</code> file.</p>
           <div class="choices">
             <div class="choice">
               <span class="tag">Option A</span>
-              <h3>Standard FIDO</h3>
+              <h4>Standard FIDO</h4>
               <a class="dl" href="https://drive.google.com/file/d/1PI05nCIKCVvE1PIyrC32TqvgsYkNgAFH/view?usp=sharing" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 13.5h11"/></svg>Download for Linux</a>
               <span class="file">.sh file</span>
             </div>
             <div class="choice">
               <span class="tag">Option B</span>
-              <h3>Bharat Gen variant</h3>
+              <h4>Bharat Gen variant</h4>
               <p class="hint">Uses a bigger model, so it takes longer to download and install.</p>
               <a class="dl" href="https://drive.google.com/file/d/1uAgKO7g3xIeiI9ca7yOD99Eo1rAN5CrD/view?usp=sharing" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 13.5h11"/></svg>Download for Linux</a>
               <span class="file">.sh file</span>
@@ -320,14 +352,14 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
 
       <li class="step">
         <div class="step-body">
-          <h2>Open your Terminal</h2>
+          <h3>Open your Terminal</h3>
           <p>Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd> at the same time to open a Terminal window.</p>
         </div>
       </li>
 
       <li class="step">
         <div class="step-body">
-          <h2>Run the setup file</h2>
+          <h3>Run the setup file</h3>
           <p>You will run the <code>.sh</code> file you downloaded using drag and drop.</p>
           <ol class="sub">
             <li>In your Terminal window, type <code>bash</code> followed by a single space. <strong>Do not press Enter yet.</strong></li>
@@ -344,6 +376,18 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
         </div>
       </li>
     </ol>
+  </section>
+  </section>
+
+  <section class="part" id="quartus" aria-labelledby="quartus-title">
+    <div class="part-head">
+      <div class="eyebrow">Part 2</div>
+      <h2 id="quartus-title">Intel Quartus + ModelSim</h2>
+    </div>
+    <p>For Verilog RTL design, we will use Intel Quartus + ModelSim. Install the package on your laptop before the workshop, following the installation guide. The guide has all the steps.</p>
+    <div>
+      <a class="dl" href="https://drive.google.com/file/d/1heDzvpDSiJnMbH3X0jptsQT3Tkr-82No/view?usp=sharing" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 1.5H4a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V5L9.5 1.5Z"/><path d="M9.5 1.5V5H13M5.5 8.5h5M5.5 11h5"/></svg>Open installation guide (PDF)</a>
+    </div>
   </section>
 
 </div>

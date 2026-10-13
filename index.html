@@ -61,6 +61,8 @@ header { display: grid; gap: 8px; }
 .eyebrow { font: 500 12px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
 h1 { font: 700 clamp(30px, 6vw, 42px)/1.1 var(--font-display); margin: 0; text-wrap: balance; letter-spacing: -.01em; }
 .lede { margin: 0; color: var(--muted); max-width: 60ch; }
+.eyebrow.event { font-size: clamp(16px, 3.5vw, 20px); font-weight: 600; letter-spacing: .06em; line-height: 1.3; }
+.prep { justify-self: start; margin: 4px 0 0; background: var(--accent-soft); color: var(--accent); font-weight: 600; padding: 10px 14px; border-radius: 8px; }
 
 /* OS tabs */
 .tabs { display: flex; gap: 4px; padding: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
@@ -149,8 +151,9 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
 <div class="wrap">
 
   <header>
-    <div class="eyebrow">SEMIX AIPC Workshop 2026</div>
+    <div class="eyebrow event">SEMIX AIPC Workshop 2026</div>
     <h1>FIDO Setup Guide</h1>
+    <p class="prep">Complete the following setup before the workshop.</p>
     <p class="lede">Pick your laptop's operating system below and follow the steps exactly.</p>
   </header>
 

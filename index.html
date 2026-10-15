@@ -147,10 +147,6 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
   font: 600 15px/1 var(--font-body); padding: 12px 14px; border-radius: 8px;
 }
 .dl:hover { filter: brightness(1.08); }
-.dl.secondary { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
-.dl.secondary:hover { background: var(--accent-soft); filter: none; }
-ul.files { margin: 6px 0; padding-left: 18px; display: grid; gap: 4px; }
-ul.files code { overflow-wrap: anywhere; }
 .desc { color: var(--muted); }
 .dl svg { width: 16px; height: 16px; flex: none; }
 .file { font: 400 13px var(--font-mono); color: var(--muted); overflow-wrap: anywhere; }
@@ -170,7 +166,6 @@ ul.files code { overflow-wrap: anywhere; }
 .term pre { margin: 0; padding: 14px 16px; font: 400 14px/1.6 var(--font-mono); overflow-x: auto; }
 .term .dim { color: var(--term-dim); }
 .term .hl { color: var(--term-hl); }
-.term pre.path { white-space: pre-wrap; overflow-wrap: anywhere; }
 
 /* After workshop */
 .after { border-top: 1px solid var(--line); padding-top: 28px; display: grid; gap: 12px; }
@@ -429,64 +424,19 @@ ul.files code { overflow-wrap: anywhere; }
 
       <li class="step">
         <div class="step-body">
-          <h3>Extract the zip</h3>
-          <ol class="sub">
-            <li>Go to your <span class="ui">Downloads</span> folder, right-click <code>Intel Quartus Installers.zip</code> and choose <span class="ui">Extract All</span>.</li>
-            <li>Keep all the extracted files together in the same folder. The installer looks for the other files next to it. You should see:
-              <ul class="files">
-                <li><code>QuartusLiteSetup-20.1.1.720-windows.exe</code></li>
-                <li><code>ModelSimSetup-20.1.1.720-windows.exe</code></li>
-                <li><code>max10-20.1.1.720.qdz</code> <span class="desc">(MAX 10 device support)</span></li>
-              </ul>
-            </li>
-          </ol>
-        </div>
-      </li>
-
-      <li class="step">
-        <div class="step-body">
-          <h3>Run the installer</h3>
-          <ol class="sub">
-            <li>Double-click <code>QuartusLiteSetup-20.1.1.720-windows.exe</code>.</li>
-            <li>Keep the default setup and the default installation directory.</li>
-            <li>When asked what to install, select:
-              <ul class="files">
-                <li><span class="ui">Quartus Prime Lite Edition (Free)</span></li>
-                <li><span class="ui">ModelSim – Intel FPGA Starter Edition (Free)</span></li>
-                <li>Under <span class="ui">Devices</span>, select <span class="ui">MAX 10</span></li>
-              </ul>
-              Then click <span class="ui">Next</span>.
-            </li>
-            <li>Wait for the installation to finish, then click <span class="ui">Finish</span>.</li>
-          </ol>
-        </div>
-      </li>
-
-      <li class="step">
-        <div class="step-body">
-          <h3>Link ModelSim to Quartus</h3>
-          <ol class="sub">
-            <li>Open <span class="ui">Quartus</span> and go to <span class="ui">Tools &gt; Options</span>.</li>
-            <li>Click <span class="ui">EDA Tool Options</span> on the left.</li>
-            <li>In the <span class="ui">ModelSim-Altera</span> row, enter this path, then click <span class="ui">OK</span>:</li>
-          </ol>
-          <div class="term" aria-label="ModelSim-Altera path">
-            <pre class="path">C:\intelFPGA_lite\20.1\modelsim_ase\win32aloem</pre>
+          <h3>Follow the installation guide</h3>
+          <p>Download the installation guide and follow it to install Quartus and ModelSim. It has every step with screenshots.</p>
+          <div>
+            <a class="dl" href="https://drive.google.com/file/d/1heDzvpDSiJnMbH3X0jptsQT3Tkr-82No/view?usp=sharing" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 1.5H4a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V5L9.5 1.5Z"/><path d="M9.5 1.5V5H13M5.5 8.5h5M5.5 11h5"/></svg>Download installation guide (PDF)</a>
           </div>
+          <span class="file">Quartus Installation Guide.pdf</span>
           <div class="callout note">
-            <span class="callout-title">Check it worked</span>
-            <p>Open that folder in File Explorer. You should see <code>modelsim.exe</code> there.</p>
+            <span class="callout-title">Skip steps 1–5 in the guide</span>
+            <p>Those steps download the setup files from Intel's website, and you already have them in the zip from Step 1. Extract the zip (right-click it and choose <span class="ui">Extract All</span>), then start from <strong>step 6</strong> of the guide.</p>
           </div>
         </div>
       </li>
     </ol>
-
-    <div class="after">
-      <p>Need screenshots? The installation guide shows every screen. Its steps 1–5 download the files from Intel's website, which you can skip because the zip above already has them.</p>
-      <div>
-        <a class="dl secondary" href="https://drive.google.com/file/d/1heDzvpDSiJnMbH3X0jptsQT3Tkr-82No/view?usp=sharing" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 1.5H4a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V5L9.5 1.5Z"/><path d="M9.5 1.5V5H13M5.5 8.5h5M5.5 11h5"/></svg>Open installation guide with screenshots (PDF)</a>
-      </div>
-    </div>
   </section>
 
 </div>

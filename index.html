@@ -225,9 +225,9 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
   </div>
 
   <div class="tabs" role="tablist" aria-label="Operating system">
-    <button class="tab" role="tab" id="tab-windows" aria-controls="panel-windows" aria-selected="true">Windows</button>
-    <button class="tab" role="tab" id="tab-mac" aria-controls="panel-mac" aria-selected="false" tabindex="-1">macOS</button>
-    <button class="tab" role="tab" id="tab-linux" aria-controls="panel-linux" aria-selected="false" tabindex="-1">Linux</button>
+    <button class="tab" role="tab" id="tab-windows" data-os="windows" aria-controls="panel-windows" aria-selected="true">Windows</button>
+    <button class="tab" role="tab" id="tab-mac" data-os="mac" aria-controls="panel-mac" aria-selected="false" tabindex="-1">macOS</button>
+    <button class="tab" role="tab" id="tab-linux" data-os="linux" aria-controls="panel-linux" aria-selected="false" tabindex="-1">Linux</button>
   </div>
 
   <!-- ───────────── WINDOWS ───────────── -->
@@ -419,16 +419,16 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
       <div class="eyebrow">Part 2</div>
       <h2 id="quartus-title">Intel Quartus + ModelSim</h2>
     </div>
-    <p class="lede">For Verilog RTL design, we will use Intel Quartus Prime Lite + ModelSim (version 18.1). Install them on your laptop before the workshop by following the steps below.</p>
-    <div class="callout note">
-      <p><strong>Windows:</strong> the setup files and guide below are for Windows only. Follow the steps below.</p>
-      <p><strong>Linux:</strong> skip the steps below. Download Quartus Prime Lite for Linux from the Altera website and install it by following the instructions given there.</p>
-      <div>
-        <a class="dl" href="https://www.altera.com/downloads/fpga-development-tools/quartus-prime-lite-edition-design-software-version-18-1-linux" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 13.5h11"/></svg>Quartus for Linux (Altera website)</a>
-      </div>
-      <p><strong>macOS:</strong> Quartus Prime is not available for Mac.</p>
-    </div>
+    <p class="lede">For Verilog RTL design, we will use Intel Quartus Prime Lite + ModelSim (version 18.1). Pick your laptop's operating system below and install them before the workshop.</p>
 
+  <div class="tabs" role="tablist" aria-label="Operating system">
+    <button class="tab" role="tab" id="qtab-windows" data-os="windows" aria-controls="qpanel-windows" aria-selected="true">Windows</button>
+    <button class="tab" role="tab" id="qtab-mac" data-os="mac" aria-controls="qpanel-mac" aria-selected="false" tabindex="-1">macOS</button>
+    <button class="tab" role="tab" id="qtab-linux" data-os="linux" aria-controls="qpanel-linux" aria-selected="false" tabindex="-1">Linux</button>
+  </div>
+
+  <!-- ───────────── WINDOWS ───────────── -->
+  <section class="panel" role="tabpanel" id="qpanel-windows" aria-labelledby="qtab-windows">
     <ol class="steps">
       <li class="step">
         <div class="step-body">
@@ -469,25 +469,60 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
     </ol>
   </section>
 
+  <!-- ───────────── MAC ───────────── -->
+  <section class="panel" role="tabpanel" id="qpanel-mac" aria-labelledby="qtab-mac" hidden>
+    <div class="callout note">
+      <span class="callout-title">Quartus is not available for Mac</span>
+      <p>Intel Quartus Prime does not run on macOS, so you cannot install it on a Mac.</p>
+    </div>
+  </section>
+
+  <!-- ───────────── LINUX ───────────── -->
+  <section class="panel" role="tabpanel" id="qpanel-linux" aria-labelledby="qtab-linux" hidden>
+    <ol class="steps">
+      <li class="step">
+        <div class="step-body">
+          <h3>Download Quartus for Linux</h3>
+          <p>Download Quartus Prime Lite 18.1 for Linux from the Altera website.</p>
+          <div>
+            <a class="dl" href="https://www.altera.com/downloads/fpga-development-tools/quartus-prime-lite-edition-design-software-version-18-1-linux" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 13.5h11"/></svg>Open Altera download page</a>
+          </div>
+          <p class="hint">This is a large download, so use a fast connection and start early.</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <div class="step-body">
+          <h3>Install Quartus and ModelSim</h3>
+          <p>Install it by following the instructions given on the Altera website.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
 </div>
 
 <script>
 (function () {
+  // Both parts have OS tabs; picking an OS in one switches both
   var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
-  function select(name, focus) {
+  function select(name, focusList) {
     tabs.forEach(function (t) {
-      var on = t.id === 'tab-' + name;
+      var on = t.getAttribute('data-os') === name;
       t.setAttribute('aria-selected', on ? 'true' : 'false');
       t.tabIndex = on ? 0 : -1;
       document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
-      if (on && focus) t.focus();
+      if (on && t.parentNode === focusList) t.focus();
     });
   }
-  tabs.forEach(function (t, i) {
-    t.addEventListener('click', function () { select(t.id.slice(4)); });
-    t.addEventListener('keydown', function (e) {
-      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-      if (d) { e.preventDefault(); select(tabs[(i + d + tabs.length) % tabs.length].id.slice(4), true); }
+  Array.prototype.forEach.call(document.querySelectorAll('[role="tablist"]'), function (list) {
+    var group = Array.prototype.slice.call(list.querySelectorAll('[role="tab"]'));
+    group.forEach(function (t, i) {
+      t.addEventListener('click', function () { select(t.getAttribute('data-os')); });
+      t.addEventListener('keydown', function (e) {
+        var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (d) { e.preventDefault(); select(group[(i + d + group.length) % group.length].getAttribute('data-os'), list); }
+      });
     });
   });
   // Open the tab for the visitor's OS (or #windows / #mac / #linux in the link)

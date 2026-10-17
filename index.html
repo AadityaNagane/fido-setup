@@ -92,6 +92,14 @@ h1 { font: 700 clamp(32px, 7vw, 48px)/1.1 var(--font-display); margin: 0; text-w
 .toc strong { font-weight: 600; }
 .toc span.desc { color: var(--muted); font-size: 15px; }
 
+/* Classroom card */
+.classroom {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 16px;
+  background: var(--surface); border: 1px solid var(--accent); border-radius: 12px; padding: 16px;
+}
+.classroom h2 { font-size: 19px; }
+.classroom p { color: var(--muted); font-size: 15px; margin-top: 4px; }
+
 /* Parts */
 .part { display: grid; gap: 20px; border-top: 1px solid var(--line); padding-top: 32px; scroll-margin-top: 16px; }
 .part-head { display: grid; gap: 6px; }
@@ -207,6 +215,14 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
     <div class="rule" aria-hidden="true"></div>
     <h1>AI Workshop</h1>
   </header>
+
+  <div class="classroom">
+    <div>
+      <h2>Join the Google Classroom</h2>
+      <p>Everyone attending the workshop should join this class.</p>
+    </div>
+    <a class="dl" href="https://classroom.google.com/u/0/c/ODg4NDM3NjY5ODEy" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2.5h4.5V7M13.5 2.5 7 9M11.5 9.5v3a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3"/></svg>Join Classroom</a>
+  </div>
 
   <div class="intro">
     <p class="prep"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5V8l2.5 1.5"/></svg>Complete the following setup before the workshop.</p>

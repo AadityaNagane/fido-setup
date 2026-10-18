@@ -99,6 +99,14 @@ h1 { font: 700 clamp(32px, 7vw, 48px)/1.1 var(--font-display); margin: 0; text-w
 }
 .classroom h2 { font-size: 19px; }
 .classroom p { color: var(--muted); font-size: 15px; margin-top: 4px; }
+.contact { border-color: var(--line); }
+.mail {
+  display: inline-flex; align-items: center; gap: 8px; min-width: 0;
+  color: var(--accent); font-weight: 600; text-decoration: none; overflow-wrap: anywhere;
+}
+.mail:hover { text-decoration: underline; }
+.mail:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.mail svg { width: 16px; height: 16px; flex: none; }
 
 /* Parts */
 .part { display: grid; gap: 20px; border-top: 1px solid var(--line); padding-top: 32px; scroll-margin-top: 16px; }
@@ -222,6 +230,14 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
       <p>Everyone attending the workshop should join this class.</p>
     </div>
     <a class="dl" href="https://classroom.google.com/u/0/c/ODg4NDM3NjY5ODEy" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2.5h4.5V7M13.5 2.5 7 9M11.5 9.5v3a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3"/></svg>Join Classroom</a>
+  </div>
+
+  <div class="classroom contact">
+    <div>
+      <h2>Questions?</h2>
+      <p>For further information and hackathon information, email:</p>
+    </div>
+    <a class="mail" href="mailto:aditya.pnagane@gmail.com"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.5" y="3.5" width="13" height="9" rx="1.5"/><path d="m2 4.5 6 4.5 6-4.5"/></svg>aditya.pnagane@gmail.com</a>
   </div>
 
   <div class="intro">

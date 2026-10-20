@@ -108,6 +108,28 @@ h1 { font: 700 clamp(32px, 7vw, 48px)/1.1 var(--font-display); margin: 0; text-w
 .mail:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
 .mail svg { width: 16px; height: 16px; flex: none; }
 
+/* Hackathon card */
+.hackathon {
+  display: grid; gap: 16px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px 16px;
+}
+.hack-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
+.hack-head h2 { font-size: 22px; }
+.due {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--warn-bg); color: var(--warn-fg); border: 1px solid var(--warn-line);
+  font: 600 14px/1 var(--font-body); padding: 8px 12px; border-radius: 999px; white-space: nowrap;
+}
+.due svg { width: 15px; height: 15px; flex: none; }
+.hackathon > p { color: var(--muted); }
+.tracks { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.tracks li {
+  display: flex; align-items: baseline; gap: 12px; padding: 12px 14px;
+  background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
+}
+.tracks .num { font: 700 15px/1 var(--font-display); color: var(--accent); font-variant-numeric: tabular-nums; }
+.tracks strong { font-weight: 600; }
+
 /* Parts */
 .part { display: grid; gap: 20px; border-top: 1px solid var(--line); padding-top: 32px; scroll-margin-top: 16px; }
 .part-head { display: grid; gap: 6px; }
@@ -231,6 +253,30 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
     </div>
     <a class="dl" href="https://classroom.google.com/c/ODg4NDM3NjY5ODEy?cjc=n5g57bsf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2.5h4.5V7M13.5 2.5 7 9M11.5 9.5v3a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3"/></svg>Join Classroom</a>
   </div>
+
+  <section class="hackathon" id="hackathon" aria-labelledby="hackathon-title">
+    <div class="hack-head">
+      <div>
+        <div class="eyebrow">After the workshop</div>
+        <h2 id="hackathon-title">Hackathon</h2>
+      </div>
+      <span class="due"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg>Due 20 Nov 2026</span>
+    </div>
+    <p>Decide a topic for the hackathon and submit your results as an assignment in the Google Classroom. The topic can be any project you are interested in, as long as it uses the methods you learnt in the AI tutorial. Pick one of these:</p>
+    <ol class="tracks">
+      <li><span class="num">1</span><span><strong>Python based AI software project</strong></span></li>
+      <li><span class="num">2</span><span><strong>Verilog based AI accelerator hardware project</strong></span></li>
+      <li><span class="num">3</span><span><strong>UVM based AI accelerator verification project</strong></span></li>
+    </ol>
+    <div class="callout note">
+      <span class="callout-title">Team or individual?</span>
+      <p>You may do the hackathon as a team, but if you would like to win the internship, it is better to do it individually so we can judge the winners.</p>
+    </div>
+    <div class="callout warn" role="note">
+      <span class="callout-title">⚠ Before you submit</span>
+      <p>Please read the hackathon agreement before submitting your results.</p>
+    </div>
+  </section>
 
   <div class="classroom contact">
     <div>

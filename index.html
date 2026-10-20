@@ -129,6 +129,7 @@ h1 { font: 700 clamp(32px, 7vw, 48px)/1.1 var(--font-display); margin: 0; text-w
 }
 .tracks .num { font: 700 15px/1 var(--font-display); color: var(--accent); font-variant-numeric: tabular-nums; }
 .tracks strong { font-weight: 600; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 10px; }
 
 /* Parts */
 .part { display: grid; gap: 20px; border-top: 1px solid var(--line); padding-top: 32px; scroll-margin-top: 16px; }
@@ -262,7 +263,7 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
       </div>
       <span class="due"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg>Due 20 Nov 2026</span>
     </div>
-    <p>Decide a topic for the hackathon and submit your results as an assignment in the Google Classroom. The topic can be any project you are interested in, as long as it uses the methods you learnt in the AI tutorial. Pick one of these:</p>
+    <p>Decide a topic for the hackathon and submit your final project in the Google Classroom assignment (use the <strong>Submit your final project</strong> button below). The topic can be any project you are interested in, as long as it uses the methods you learnt in the AI tutorial. Pick one of these:</p>
     <ol class="tracks">
       <li><span class="num">1</span><span><strong>Python based AI software project</strong></span></li>
       <li><span class="num">2</span><span><strong>Verilog based AI accelerator hardware project</strong></span></li>
@@ -276,7 +277,8 @@ code { font: 500 14px var(--font-mono); background: var(--note-bg); padding: 1px
       <span class="callout-title">⚠ Before you submit</span>
       <p>Please read the hackathon agreement before submitting your results.</p>
     </div>
-    <div>
+    <div class="btn-row">
+      <a class="dl" href="https://classroom.google.com/c/ODg4NDM3NjY5ODEy/a/ODc0MTM5OTk3MzQ3/details" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 10.5V2M4.5 5.5 8 2l3.5 3.5M2.5 13.5h11"/></svg>Submit your final project</a>
       <a class="dl" href="https://drive.google.com/file/d/13gwiAdWzf74r3LRZtbrRZryIgQhA9H7J/view?usp=sharing" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 1.5H4a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V5L9.5 1.5Z"/><path d="M9.5 1.5V5H13M5.5 8.5h5M5.5 11h5"/></svg>Read the hackathon agreement</a>
     </div>
   </section>
